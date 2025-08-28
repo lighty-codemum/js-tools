@@ -212,5 +212,23 @@ const PathEditor = {
             }
             index++;
         });
+    },
+    
+    createPathEditors: function(pathIds) {
+        const pathEditors = {};
+        pathIds.forEach(id => {
+            const path = document.getElementById(id);
+            if (path) {
+                const svg = path.closest('svg');
+                const markersGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                markersGroup.id = `${id}-markers`;
+                svg.appendChild(markersGroup);
+                const editorInstance = Object.assign({}, this);
+                editorInstance.init(path, markersGroup);
+                pathEditors[id] = editorInstance;
+            }
+        });
+        return pathEditors;
     }
+    
 };
